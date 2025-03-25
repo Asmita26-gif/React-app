@@ -22,32 +22,92 @@
 
 
 
-import React from 'react'
-import Header from '../../../components/Header'
-import { NavLink, Outlet } from 'react-router'
-import Intro from './Intro'
+//import React from 'react'
+//import Header from '../../../components/Header'
+//import { NavLink, Outlet } from 'react-router'
+//import Intro from './Intro'
 
-import Tech from './Tech'
-import Info from './Info'
-import Footer from './Footer'
-
-
-export default function Home() {
-  return (
-    <div>
+//import Tech from './Tech'
+//import Info from './Info'
+//import Footer from './Footer'
 
 
-      {/* <div className='h-200px w-[200px] border-2 border-amber-300 animate-myAni'>
+//export default function Home() {
+// return (
+// <div>
+
+
+{/* <div className='h-200px w-[200px] border-2 border-amber-300 animate-myAni'>
         <h1>hello</h1>
       </div> */}
 
-      <Intro />
-      <Tech />
-      <Info />
-      <Footer />
+
+import { useState } from 'react';
+// <Intro />
+// <Tech />
+// <Info />
+// <Footer />
 
 
 
+// </div>
+//)
+//}
+
+
+
+
+//import { faker } from '@faker-js/faker';
+
+//const FakeUser = () => {
+//const user = {
+// name: faker.person.fullName(),
+// email: faker.internet.email(),
+// avatar: faker.image.avatar(),
+//};
+
+//console.log(user);
+
+//return (
+//  <div>
+//    <h2>{user.name}</h2>
+//   <p>{user.email}</p>
+//   <img src={user.avatar} alt="User Avatar" />
+
+
+//  </div>
+// );
+//};
+
+//export default FakeUser;
+
+
+
+
+
+
+
+import { faker } from '@faker-js/faker';
+
+const FakeUserGenerator = () => {
+  const generateUser = () => ({
+    name: faker.person.fullName(),
+    email: faker.internet.email(),
+    avatar: faker.image.avatar(),
+  });
+
+  const [user, setUser] = useState(generateUser());
+
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+      <img src={user.avatar} alt="User Avatar" />
+
+      <br />
+      <button onClick={() => setUser(generateUser())}>Generate New User</button>
     </div>
-  )
-}
+  );
+};
+
+export default FakeUserGenerator;
