@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+
+
+@theme {
+  /* --color-*: initail; */
+  --color-primary: red;
+  --color-buttonColor: green;
+
+
+  --animate-myAni: ani 2s ease-in infinite;
+
+  @keyframes ani {
+    10% {
+      background-color: red;
+    }
+
+    50% {
+      background-color: pink;
+    }
+
+    100% {
+      background-color: blue;
+    }
+  }
+}
+
+.cls {}
