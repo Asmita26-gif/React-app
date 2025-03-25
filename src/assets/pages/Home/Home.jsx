@@ -1,6 +1,8 @@
 // import React from 'react'
 // import { FiTool } from 'react-icons/fi'
 
+
+
 // export default function Home() {
 //   return (
 //     <div className='grid grid-cols-[1fr_1fr] items-center justify-items-center min-h-screen px-6 backdrop-blur-3xl'>
@@ -42,7 +44,7 @@
       </div> */}
 
 
-import { useState } from 'react';
+
 // <Intro />
 // <Tech />
 // <Info />
@@ -87,27 +89,68 @@ import { useState } from 'react';
 
 
 
+// import { faker } from '@faker-js/faker';
+// import { useState } from 'react';
+
+// const FakeUserGenerator = () => {
+//   const generateUser = () => ({
+//     name: faker.person.fullName(),
+//     email: faker.internet.email(),
+//     avatar: faker.image.avatar(),
+//   });
+
+//   const [user, setUser] = useState(generateUser());
+
+//   return (
+//     <div>
+//       <h2>{user.name}</h2>
+//       <p>{user.email}</p>
+//       <img src={user.avatar} alt="User Avatar" />
+
+//       <br />
+//       <button onClick={() => setUser(generateUser())}>Generate New User</button>
+//     </div>
+//   );
+// };
+
+// export default FakeUserGenerator;
+
+
+
+
+import React, { useState } from 'react';
 import { faker } from '@faker-js/faker';
 
-const FakeUserGenerator = () => {
-  const generateUser = () => ({
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    avatar: faker.image.avatar(),
-  });
+const FakeProductList = () => {
+  const generateProducts = () => {
+    return Array.from({ length: 5 }, () => ({
+      name: faker.commerce.productName(),
+      price: faker.commerce.price(),
+      image: faker.image.url({ width: 100, height: 100 }),
+    }));
+  };
 
-  const [user, setUser] = useState(generateUser());
+  const [products, setProducts] = useState(generateProducts);
+
+  const handleGenerateProducts = () => {
+    setProducts(generateProducts());
+  };
 
   return (
     <div>
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-      <img src={user.avatar} alt="User Avatar" />
-
-      <br />
-      <button onClick={() => setUser(generateUser())}>Generate New User</button>
+      <h2>Fake Products</h2>
+      <button onClick={handleGenerateProducts}>Generate New Products</button>
+      <ul>
+        {products.map((product, index) => (
+          <li key={index} style={{ marginBottom: '20px' }}>
+            <h3>{product.name}</h3>
+            <p>Price: ${product.price}</p>
+            <img src={product.image} alt="Product" width="100" />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default FakeUserGenerator;
+export default FakeProductList;
