@@ -158,11 +158,6 @@
 
 
 
-import axios from 'axios'
-import React, { useState } from 'react'
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { Image, Shimmer } from 'react-shimmer';
 
 
 // const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
@@ -194,68 +189,60 @@ import { Image, Shimmer } from 'react-shimmer';
 // console.log('hello world');
 
 
+
+
+
+
+
+
+
+
+
+
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
+import { Image, Shimmer } from 'react-shimmer';
+
 export default function Home() {
   const nav = useNavigate();
-
   const [data, setData] = useState();
   const [load, setLoad] = useState(false);
-
-
 
   const getData = async () => {
     setLoad(true);
     try {
       const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
-      setData((prev) => response.data);
-      setLoad(false);
+      setData(response.data);
     } catch (err) {
+      console.error(err);
+    } finally {
       setLoad(false);
-      console.log(err);
-
     }
-
-  }
-
-
+  };
 
   useEffect(() => {
     getData();
-
   }, []);
 
   if (load) {
-    return <h1>Loading......</h1>
+    return <h1>Loading......</h1>;
   }
 
-
-
-  console.log(data);
-
-
   return (
-
     <div className='grid grid-cols-4 gap-5 p-5'>
-
-
-
-
-      {data && data.categories.map((cata) => {
-        return <div
-          className='cursor-pointer'
-          onClick={() => nav(`/category-items/${cata.strCategory}`)}
-          key={cata.idCategory}>
-          <h1>{cata.strCategory}</h1>
-          <img src={cata.strCategoryThumb} alt=""
-
-          />
-          <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
-
-        </div>
-      })}
-
-
-
+      {data &&
+        data.categories.map((cata) => (
+          <div
+            className='cursor-pointer'
+            onClick={() => nav(`/category-items/${cata.strCategory}`)}
+            key={cata.idCategory}
+          >
+            <h1>{cata.strCategory}</h1>
+            <img src={cata.strCategoryThumb} alt="" />
+            <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
+          </div>
+        ))}
     </div>
-  )
+  );
 }
-
