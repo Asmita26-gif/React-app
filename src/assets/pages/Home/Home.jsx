@@ -163,40 +163,43 @@ import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
+
+// const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
+//   {
+//   headers:{
+//     'x-rapidapi-key': '282cc3fef5msh2973f3f990c669ep137496jsnbc08f97f443a',
+//   },
+//   params: {
+//     q:'27.7012231,85.3186019'
+//   }
+// });
+
+
+// const getData = async()=>{
+//   try{
+//     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+//     console.log(response.data);
+
+//   }catch(err){
+//     console.log(err);
+
+//   }
+// }
+// useEffect(() => {
+//   getData();
+//   console.log('hello');
+// }, []);
+
+// console.log('hello world');
+
+
 export default function Home() {
-  // const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
-  //   {
-  //   headers:{
-  //     'x-rapidapi-key': '282cc3fef5msh2973f3f990c669ep137496jsnbc08f97f443a',
-  //   },
-  //   params: {
-  //     q:'27.7012231,85.3186019'
-  //   }
-  // });
-
-
-  // const getData = async()=>{
-  //   try{
-  //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-  //     console.log(response.data);
-
-  //   }catch(err){
-  //     console.log(err);
-
-  //   }
-  // }
-  // useEffect(() => {
-  //   getData();
-  //   console.log('hello');
-  // }, []);
-
-  // console.log('hello world');
-
+  const nav = useNavigate();
 
   const [data, setData] = useState();
   const [load, setLoad] = useState(false);
-  // const [person, setPerson] = useState();
-  const nav = useNavigate();
+
+
 
   const getData = async () => {
     setLoad(true);
@@ -231,7 +234,7 @@ export default function Home() {
   return (
     <div>
 
-      {/* <h1>{person?.name}</h1> */}
+
       <h1>Meals Category</h1>
 
       {data && data.categories.map((cata) => {
@@ -241,7 +244,7 @@ export default function Home() {
           key={cata.idCategory}>
           <h1>{cata.strCategory}</h1>
           <img src={cata.strCategoryThumb} alt="" />
-          <p>{cata.strCategoryDescription}</p>
+          <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
 
         </div>
       })}
