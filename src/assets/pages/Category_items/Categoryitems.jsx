@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
+import { Image, Shimmer } from 'react-shimmer';
 
 export default function Categoryitems() {
   const { label } = useParams();
@@ -45,9 +46,18 @@ export default function Categoryitems() {
 
 
   return (
-    <div>
+    <div className='grid grid-cols-4 gap-5 p-5'>
 
-      <h1>Items Page</h1>
+      {data && data.meals.map((meal) => {
+        return <div
+          onClick={() => nav(`/items-details/${meal.idMeal}`)}
+          key={meal.idMeal} className='space-y-3 cursor-pointer'>
+          <h1 className='font-bold'>{meal.strMeal}</h1>
+          <Image src={meal.strMealThumb} alt=""
+            fallback={<Shimmer height={300} width={250} />}
+          />
+        </div>
+      })}
 
     </div>
   )

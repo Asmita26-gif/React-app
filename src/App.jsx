@@ -9,6 +9,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 // import Page2 from './assets/pages/Home/nested-pages/Page2';
 import RootLayout from './components/RootLayout';
 import Categoryitems from './assets/pages/Category_items/Categoryitems';
+import ItemsDetails from './assets/pages/Items-details/ItemsDetails';
 // import NotFound from './assets/pages/NotFound';
 // import MyComponent from './components/MyComponent';
 
@@ -36,6 +37,13 @@ export default function App() {
 
           path: 'category-items/:label',
           element: <Categoryitems />,
+        },
+
+
+        {
+
+          path: 'items-details/:id',
+          element: <ItemsDetails />,
         },
 
 

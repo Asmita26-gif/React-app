@@ -162,6 +162,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { Image, Shimmer } from 'react-shimmer';
 
 
 // const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
@@ -232,10 +233,11 @@ export default function Home() {
 
 
   return (
-    <div>
+
+    <div className='grid grid-cols-4 gap-5 p-5'>
 
 
-      <h1>Meals Category</h1>
+
 
       {data && data.categories.map((cata) => {
         return <div
@@ -243,7 +245,9 @@ export default function Home() {
           onClick={() => nav(`/category-items/${cata.strCategory}`)}
           key={cata.idCategory}>
           <h1>{cata.strCategory}</h1>
-          <img src={cata.strCategoryThumb} alt="" />
+          <img src={cata.strCategoryThumb} alt=""
+
+          />
           <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
 
         </div>
