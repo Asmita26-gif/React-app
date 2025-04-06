@@ -1,3 +1,90 @@
+import React, { useState } from 'react'
+import { Formik } from 'formik';
+
+export default function Home() {
+  const [ins, setIns] = useState('');
+  return (
+
+
+    <div className='p-5'>
+      <Formik initialValues={{
+        query: ''
+      }}
+        onSubmit={(val) => {
+
+        }}
+      >
+        {
+          ({ handleChange, handleSubmit, values }) => {
+
+            return <form onSubmit={handleSubmit} className='space-y-2 flex gap-4 items-baseline'>
+
+              <div>
+                <input className="border-2 bg-gray-500"
+                  value={values.query}
+                  onChange={handleChange} type='text' name='query'
+                  placeholder='search for meals'
+                />
+
+              </div>
+
+              <button className='bg-black text-white px-2 rounded-sm py-1'>Submit</button>
+            </form>
+          }
+        }
+      </Formik>
+
+
+
+
+
+
+    </div>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // import React from 'react'
 // import { FiTool } from 'react-icons/fi'
 
@@ -158,11 +245,10 @@
 
 
 
-import axios from 'axios'
-import React, { useState } from 'react'
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { Image, Shimmer } from 'react-shimmer';
+// import axios from 'axios'
+// import React, { useState } from 'react'
+// import { useNavigate } from 'react-router';
+// import { useApiHooks } from '../../../hooks/apiHooks';
 
 
 // const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
@@ -194,68 +280,149 @@ import { Image, Shimmer } from 'react-shimmer';
 // console.log('hello world');
 
 
+// export default function Home() {
+//   const nav = useNavigate();
+
+//   const [load, data, err] = useApiHooks('https://www.themealdb.com/api/json/v1/1/categories.php');
+
+
+
+
+
+
+
+
+//   if (load) {
+//     return <h1>Loading......</h1>
+//   }
+
+
+
+
+
+
+//   return (
+
+//     <div className='grid grid-cols-4 gap-5 p-5'>
+
+
+
+
+//       {data && data.categories.map((cata) => {
+//         return <div
+//           className='cursor-pointer'
+//           onClick={() => nav(`/category-items/${cata.strCategory}`)}
+//           key={cata.idCategory}>
+//           <h1>{cata.strCategory}</h1>
+//           <img src={cata.strCategoryThumb} alt=""
+
+//           />
+//           <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
+
+//         </div>
+//       })}
+
+
+
+//     </div>
+//   )
+// }
+
+
+
+
+
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react'
+import Category from './Category';
+import SearchItem from './SearchItem';
+
 export default function Home() {
-  const nav = useNavigate();
+
+
 
   const [data, setData] = useState();
   const [load, setLoad] = useState(false);
-
+  const [search, setSearch] = useState(null);
 
 
   const getData = async () => {
     setLoad(true);
     try {
-      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
-      setData((prev) => response.data);
+      if (search) {
+        const response = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php', {
+          params: {
+            s: search
+          }
+        });
+        setData((prev) => response.data);
+      } else {
+        const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
+        setData((prev) => response.data);
+      }
+
       setLoad(false);
     } catch (err) {
       setLoad(false);
       console.log(err);
-
     }
 
   }
-
-
-
   useEffect(() => {
     getData();
-
-  }, []);
+  }, [search]);
 
   if (load) {
-    return <h1>Loading......</h1>
+    return <h1>Loading....</h1>
   }
 
 
-
-  console.log(data);
-
-
   return (
-
-    <div className='grid grid-cols-4 gap-5 p-5'>
-
+    <div className='p-5'>
 
 
+      <Formik
+        initialValues={{
+          query: ''
+        }}
 
-      {data && data.categories.map((cata) => {
-        return <div
-          className='cursor-pointer'
-          onClick={() => nav(`/category-items/${cata.strCategory}`)}
-          key={cata.idCategory}>
-          <h1>{cata.strCategory}</h1>
-          <img src={cata.strCategoryThumb} alt=""
+        onSubmit={(val) => {
+          setSearch(val.query);
 
-          />
-          <p className='line-clamp-5'>{cata.strCategoryDescription}</p>
 
-        </div>
-      })}
+        }}
+
+      >
+
+
+        {({ handleChange, handleSubmit, values }) => {
+
+          return <form onSubmit={handleSubmit} className='space-y-2 flex gap-4 items-baseline'>
+            <div>
+              <input
+                className='border-2 border-gray-500 px-2 w-[300px] py-1'
+                value={values.query}
+                onChange={handleChange}
+                type="text" name='query'
+                placeholder='search for meals'
+              />
+            </div>
+
+
+            <button className='bg-black text-white text-sm px-5 py-2 rounded-sm' type='submit'>Submit</button>
+
+          </form>
+        }}
+
+
+      </Formik>
+
+      {search ? <SearchItem data={data} /> : <Category data={data} />
+      }
 
 
 
     </div>
   )
 }
-
