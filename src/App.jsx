@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router'
 // import Page1 from './assets/pages/Home/nested-pages/Page1';
 // import Page2 from './assets/pages/Home/nested-pages/Page2';
 import RootLayout from './components/RootLayout';
+import Categoryitems from './assets/pages/Category_items/Categoryitems';
 // import NotFound from './assets/pages/NotFound';
 // import MyComponent from './components/MyComponent';
 
@@ -30,6 +31,18 @@ export default function App() {
           index: 'true',
           element: <Home />,
         },
+
+        {
+
+          path: 'category-items/:label',
+          element: <Categoryitems />,
+        },
+
+
+
+
+
+
 
         {
           path: 'about',

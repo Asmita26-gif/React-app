@@ -118,39 +118,137 @@
 
 
 
-import React, { useState } from 'react';
-import { faker } from '@faker-js/faker';
+// import React, { useState } from 'react';
+// import { faker } from '@faker-js/faker';
 
-const FakeProductList = () => {
-  const generateProducts = () => {
-    return Array.from({ length: 5 }, () => ({
-      name: faker.commerce.productName(),
-      price: faker.commerce.price(),
-      image: faker.image.url({ width: 100, height: 100 }),
-    }));
-  };
+// const FakeProductList = () => {
+//   const generateProducts = () => {
+//     return Array.from({ length: 5 }, () => ({
+//       name: faker.commerce.productName(),
+//       price: faker.commerce.price(),
+//       image: faker.image.url({ width: 100, height: 100 }),
+//     }));
+//   };
 
-  const [products, setProducts] = useState(generateProducts);
+//   const [products, setProducts] = useState(generateProducts);
 
-  const handleGenerateProducts = () => {
-    setProducts(generateProducts());
-  };
+//   const handleGenerateProducts = () => {
+//     setProducts(generateProducts());
+//   };
+
+//   return (
+//     <div>
+//       <h2>Fake Products</h2>
+//       <button onClick={handleGenerateProducts}>Generate New Products</button>
+//       <ul>
+//         {products.map((product, index) => (
+//           <li key={index} style={{ marginBottom: '20px' }}>
+//             <h3>{product.name}</h3>
+//             <p>Price: ${product.price}</p>
+//             <img src={product.image} alt="Product" width="100" />
+//           </li>
+//         ))}
+//       </ul>
+//     </div>
+//   );
+// };
+
+// export default FakeProductList;
+
+
+
+
+import axios from 'axios'
+import React, { useState } from 'react'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router';
+
+export default function Home() {
+  // const response= axios.get('https://weatherapi-com.p.rapidapi.com/alerts.json',
+  //   {
+  //   headers:{
+  //     'x-rapidapi-key': '282cc3fef5msh2973f3f990c669ep137496jsnbc08f97f443a',
+  //   },
+  //   params: {
+  //     q:'27.7012231,85.3186019'
+  //   }
+  // });
+
+
+  // const getData = async()=>{
+  //   try{
+  //     const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+  //     console.log(response.data);
+
+  //   }catch(err){
+  //     console.log(err);
+
+  //   }
+  // }
+  // useEffect(() => {
+  //   getData();
+  //   console.log('hello');
+  // }, []);
+
+  // console.log('hello world');
+
+
+  const [data, setData] = useState();
+  const [load, setLoad] = useState(false);
+  // const [person, setPerson] = useState();
+  const nav = useNavigate();
+
+  const getData = async () => {
+    setLoad(true);
+    try {
+      const response = await axios.get('https://www.themealdb.com/api/json/v1/1/categories.php');
+      setData((prev) => response.data);
+      setLoad(false);
+    } catch (err) {
+      setLoad(false);
+      console.log(err);
+
+    }
+
+  }
+
+
+
+  useEffect(() => {
+    getData();
+
+  }, []);
+
+  if (load) {
+    return <h1>Loading......</h1>
+  }
+
+
+
+  console.log(data);
+
 
   return (
     <div>
-      <h2>Fake Products</h2>
-      <button onClick={handleGenerateProducts}>Generate New Products</button>
-      <ul>
-        {products.map((product, index) => (
-          <li key={index} style={{ marginBottom: '20px' }}>
-            <h3>{product.name}</h3>
-            <p>Price: ${product.price}</p>
-            <img src={product.image} alt="Product" width="100" />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
 
-export default FakeProductList;
+      {/* <h1>{person?.name}</h1> */}
+      <h1>Meals Category</h1>
+
+      {data && data.categories.map((cata) => {
+        return <div
+          className='cursor-pointer'
+          onClick={() => nav(`/category-items/${cata.strCategory}`)}
+          key={cata.idCategory}>
+          <h1>{cata.strCategory}</h1>
+          <img src={cata.strCategoryThumb} alt="" />
+          <p>{cata.strCategoryDescription}</p>
+
+        </div>
+      })}
+
+
+
+    </div>
+  )
+}
+
