@@ -287,8 +287,11 @@ import React from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import RootLayout from './components/RootLayout'
 import TodoPage from './components/todo/TodoPage'
+import { todoSlice } from './components/todo/todoSlice'
 
 export default function App1() {
+
+  console.log(todoSlice);
   const router = createBrowserRouter([
     {
       path: '/',
